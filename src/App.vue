@@ -1,4 +1,4 @@
-<template>
+<<template>
   <div id="app">
   <main>
     <div class="search-box">
@@ -26,6 +26,8 @@
 
 <script>
 
+import axios from "axios"
+
 export default {
   name: 'app',
   data(){
@@ -38,17 +40,17 @@ export default {
     }
   },
   methods: {
-  fetchWeather (e) {
-      if (e.key == "Enter") {
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-      }
-    },
-    setResults (results) {
-      this.weather = results;
-    },
+        async fetchWeather(e) {
+        if (e.key == "Enter") {
+        let response = await axios.get(
+        `${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`
+        );
+        this.setResults(response.data);
+        }
+        },
+        setResults(returnedResponse) {
+        this.weather = returnedResponse;
+        },
     dateCreator () {
       let dates = new Date();
       let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
